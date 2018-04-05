@@ -4,19 +4,13 @@ import cv2
 if __name__ == '__main__':
     prototxt = 'deploy.prototxt.txt'
     model = 'res10_300x300_ssd_iter_140000.caffemodel'
-    print("[INFO] loading model...")
     net = cv2.dnn.readNetFromCaffe(prototxt, model)
 
-    print("[INFO] starting video stream...")
     cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
-
-
         (h, w) = frame.shape[:2]
-
-        blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
-                                     (300, 300), (104.0, 177.0, 123.0))
+        blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
         net.setInput(blob)
         detections = net.forward()
         for i in range(0, detections.shape[2]):
